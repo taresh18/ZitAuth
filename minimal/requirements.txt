@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+requests
+python-jose[cryptography]
+python-dotenv
