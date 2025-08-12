@@ -1,5 +1,5 @@
 logs/*
-login-client.pat
-plan.md
+*.pat
 *.pyc
-*/*.log
+*.json
+.env
