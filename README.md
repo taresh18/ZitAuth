@@ -133,7 +133,7 @@ uvicorn python.main:app --reload --port 8000
 
 ### Testing the User Login Flow (SPA)
 
-![ZitAuth SPA setup](../assets/image1.png)
+![ZitAuth SPA setup](assets/image1.png)
 
 1. **Start the SPA app:**
    ```bash
