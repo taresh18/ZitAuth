@@ -6,20 +6,13 @@
 
 ## ⚡ Key Features
 
-**🔐 Bulletproof User Authentication**  
-OIDC login with PKCE flow—secure by design, simple to implement
+**🔐 Bulletproof User Authentication:**  OIDC login with PKCE flow—secure by design, simple to implement
 
-**🤖 Effortless Service-to-Service Auth**  
-M2M authentication with JWT Bearer Grant—no more credential juggling
+**🤖 Effortless Service-to-Service Auth:**  M2M authentication with JWT Bearer Grant—no more credential juggling
 
-**✅ One-Stop Token Validation**  
-Single `/validate` endpoint handles all tokens—your services stay clean
+**✅ One-Stop Token Validation:**  Single `/validate` endpoint handles all tokens—your services stay clean
 
-**🎯 Ready-to-Run Examples**  
-Complete SPA demo + M2M script—see it working in minutes
-
-**🚀 Zero-Config Development**  
-Docker Compose spins up everything locally—start coding, not configuring
+**🎯 Ready-to-Run Examples:**  Complete SPA demo + M2M script—see it working in minutes
 
 ## Architecture Diagram
 
@@ -27,42 +20,39 @@ The system is designed to place **ZitAuth Gateway** at the center of all authent
 
 ```mermaid
 graph TD
-    subgraph "Initiators"
+    subgraph "Clients"
         User[👤 User]
         M2MClient[💻 Backend Service]
     end
 
-    subgraph "Client Application"
-        SPA[🌐 SPA / Client App]
+    subgraph "Application Layer"
+        SPA[🌐 SPA / Web App]
+        ProtectedAPI[📦 Your Protected API]
     end
 
-    subgraph "Core Authentication System"
+    subgraph "Authentication Core"
         ZitAuth[🛡️ ZitAuth Gateway]
         Zitadel[🔐 Zitadel IdP]
     end
 
-    subgraph "Protected Resource"
-        ProtectedAPI[📦 Your Protected API]
-    end
+    %% User Authentication Flow
+    User -- "Initiates Login" --> SPA
+    SPA -- "Redirects for Auth" --> ZitAuth
+    ZitAuth -- "Handles OIDC Flow" --> Zitadel
+    Zitadel -- "Authenticates & Issues Code" --> ZitAuth
+    ZitAuth -- "Exchanges Code for Token" --> Zitadel
+    ZitAuth -- "Returns Token" --> SPA
+    SPA -- "Calls API with User Token" --> ProtectedAPI
 
-    %% User Authentication Flow (Numbered Steps)
-    User -- "1. Login" --> SPA
-    SPA -- "2. Redirect for Login" --> ZitAuth
-    ZitAuth -- "3. OIDC Flow" --> Zitadel
-    Zitadel -- "4. Auth Code" --> ZitAuth
-    ZitAuth -- "5. Token Exchange" --> Zitadel
-    ZitAuth -- "6. Returns Token" --> SPA
+    %% M2M Authentication Flow
+    M2MClient -- "Requests M2M Token" --> ZitAuth
+    ZitAuth -- "Handles JWT Bearer Grant" --> Zitadel
+    Zitadel -- "Issues M2M Token" --> ZitAuth
+    ZitAuth -- "Returns Token" --> M2MClient
+    M2MClient -- "Calls API with M2M Token" --> ProtectedAPI
 
-    %% M2M Authentication Flow (Lettered Steps)
-    M2MClient -- "A. Request M2M Token" --> ZitAuth
-    ZitAuth -- "B. JWT Bearer Grant" --> Zitadel
-    Zitadel -- "C. Returns M2M Token" --> ZitAuth
-    ZitAuth -- "D. Returns Token" --> M2MClient
-
-    %% API Access - The Convergence Point
-    SPA -- "7. API Call w/ User Token" --> ProtectedAPI
-    M2MClient -- "E. API Call w/ M2M Token" --> ProtectedAPI
-    ProtectedAPI -- "✅ Centralized Validation" --> ZitAuth
+    %% Centralized Validation
+    ProtectedAPI -- "Validates Token via Gateway" --> ZitAuth
 ```
 
 ## 🚀 Quick Start
