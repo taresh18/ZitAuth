@@ -16,8 +16,6 @@
 
 ## Architecture Diagram
 
-The system is designed to place **ZitAuth Gateway** at the center of all authentication flows, abstracting away the details of Zitadel from the client applications.
-
 ```mermaid
 graph TD
     subgraph "Clients"
