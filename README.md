@@ -156,6 +156,22 @@ uvicorn python.main:app --reload --port 8000
 
 3. Observe the logs. The script will request an M2M token, receive it, and use it to successfully call the protected API
 
+## 🏗️ Project Structure:
+```
+.
+├── docker-compose.yaml     # Sets up Zitadel server locally
+├── examples/
+│   ├── m2m_sim.py          # Simulates the local service (M2M)
+│   └── spa_app/            # Simulates the mobile/web application
+├── python/
+│   ├── client.py           # The core ZitadelClient abstraction layer
+│   ├── main.py             # The FastAPI service (ZitAuth Gateway)
+│   └── utils.py            # Helper functions
+├── .env.example            # Template for environment variables
+├── requirements.txt        # Python dependencies
+└── start.sh                # Helper script to run services
+```
+
 ## ⚙️ API Documentation
 
 <details>
