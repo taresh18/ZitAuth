@@ -1,20 +1,17 @@
 # 🛡️ ZitAuth: Zitadel Authentication Abstraction
 
-**Stop wrestling with authentication complexity.** ZitAuth is your centralized authentication gateway that transforms Zitadel integration from a headache into a breeze. One clean API for all your apps—web, mobile, and backend services.
+ZitAuth is a centralized authentication gateway that transforms Zitadel integration from a headache into a breeze. One clean API for all your apps—web, mobile, and backend services.
 
 **Why ZitAuth?** Because your applications shouldn't care about JWT validation, JWKS endpoints, or OIDC flows. They should just work.
 
-## ⚡ Key Features
+## ✨ Key Features
 
-**🔐 Bulletproof User Authentication:**  OIDC login with PKCE flow—secure by design, simple to implement
+🔐 **Bulletproof User Authentication**: OIDC login with PKCE flow  
+🤖 **Effortless Service-to-Service Auth**: M2M authentication with JWT Bearer Grant—no more credential juggling  
+✅ **One-Stop Token Validation**: Single `/validate` endpoint handles all tokens—your services stay clean  
+🎯 **Ready-to-Run Examples**: Complete SPA demo + M2M script—see it working in minutes  
 
-**🤖 Effortless Service-to-Service Auth:**  M2M authentication with JWT Bearer Grant—no more credential juggling
-
-**✅ One-Stop Token Validation:**  Single `/validate` endpoint handles all tokens—your services stay clean
-
-**🎯 Ready-to-Run Examples:**  Complete SPA demo + M2M script—see it working in minutes
-
-## Architecture Diagram
+## 📊 Architecture Diagram
 
 ```mermaid
 graph TD
@@ -117,7 +114,7 @@ This application simulates machine-to-machine login flow.
    pip install -r requirements.txt
    ```
 
-## Running the Services
+## 🏃 Running the Services
 
 The `start.sh` script is provided to run the main components. You can inspect the script to see the individual commands.
 
@@ -127,7 +124,7 @@ The `start.sh` script is provided to run the main components. You can inspect th
 uvicorn python.main:app --reload --port 8000
 ```
 
-## Testing the Flows
+## Testing
 
 ### Testing the User Login Flow (SPA)
 
@@ -159,7 +156,7 @@ uvicorn python.main:app --reload --port 8000
 
 3. Observe the logs. The script will request an M2M token, receive it, and use it to successfully call the protected API
 
-## API Documentation
+## ⚙️ API Documentation
 
 <details>
 <summary><strong>Click to expand API Endpoint Documentation</strong></summary>
