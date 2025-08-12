@@ -1,4 +1,4 @@
-## ZitAuth (Node.js) — Zitadel Authentication Wrapper
+## ZitAuth (Node.js)
 
 This is the Node.js port of the ZitAuth service. It exposes the same endpoints and behavior, acting as a centralized gateway over Zitadel for PKCE user login, M2M token issuance, token validation, and userinfo proxy.
 
