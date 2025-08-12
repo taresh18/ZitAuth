@@ -1,4 +1,4 @@
-# 🛡️ ZitAuth: Zitadel Authentication Abstraction
+# ZitAuth 🛡️ ✨
 
 ZitAuth is a centralized authentication gateway that transforms Zitadel integration from a headache into a breeze. One clean API for all your apps—web, mobile, and backend services.
 
