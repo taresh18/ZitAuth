@@ -10,6 +10,7 @@ ZitAuth is a centralized authentication gateway that transforms Zitadel integrat
 🤖 **Effortless Service-to-Service Auth**: M2M authentication with JWT Bearer Grant—no more credential juggling  
 ✅ **One-Stop Token Validation**: Single `/validate` endpoint handles all tokens—your services stay clean  
 🎯 **Ready-to-Run Examples**: Complete SPA demo + M2M script—see it working in minutes  
+🐍 **Dual Implementation**: Available in both Python (FastAPI) and Node.js (Express)—choose your stack  
 
 ## 📊 Architecture Diagram
 
