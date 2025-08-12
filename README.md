@@ -127,7 +127,7 @@ uvicorn python.main:app --reload --port 8000
 
 Note - For running in nodejs, refer to `nodejs/README.md`
 
-## Testing
+## 🛠️ Testing
 
 ### Testing the User Login Flow (SPA)
 
