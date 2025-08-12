@@ -1,49 +1,68 @@
 # 🛡️ ZitAuth: Zitadel Authentication Abstraction
 
-ZitAuth is a centralized authentication gateway that transforms Zitadel integration from a headache into a breeze. One clean API for all your apps—web, mobile, and backend services.
+**Stop wrestling with authentication complexity.** ZitAuth is your centralized authentication gateway that transforms Zitadel integration from a headache into a breeze. One clean API for all your apps—web, mobile, and backend services.
 
 **Why ZitAuth?** Because your applications shouldn't care about JWT validation, JWKS endpoints, or OIDC flows. They should just work.
 
 ## ⚡ Key Features
 
-**🔐 Bulletproof User Authentication:**  OIDC login with PKCE flow secure by design, simple to implement
+**🔐 Bulletproof User Authentication**  
+OIDC login with PKCE flow—secure by design, simple to implement
 
-**🤖 Effortless Service-to-Service Auth:**  M2M authentication with JWT Bearer Grant, no more credential juggling
+**🤖 Effortless Service-to-Service Auth**  
+M2M authentication with JWT Bearer Grant—no more credential juggling
 
-**✅ One-Stop Token Validation:**  Single `/validate` endpoint handles all tokens, your services stay clean
+**✅ One-Stop Token Validation**  
+Single `/validate` endpoint handles all tokens—your services stay clean
 
-**🎯 Ready-to-Run Examples:**  Complete SPA demo + M2M script, see it working in minutes
+**🎯 Ready-to-Run Examples**  
+Complete SPA demo + M2M script—see it working in minutes
 
+**🚀 Zero-Config Development**  
+Docker Compose spins up everything locally—start coding, not configuring
 
 ## Architecture Diagram
 
+The system is designed to place **ZitAuth Gateway** at the center of all authentication flows, abstracting away the details of Zitadel from the client applications.
+
 ```mermaid
 graph TD
-    subgraph User Interaction
-        User[👤 User] -- 1. Clicks Login --> SPA[🌐 SPA App @ Port 3001]
+    subgraph "Initiators"
+        User[👤 User]
+        M2MClient[💻 Backend Service]
     end
 
-    subgraph Authentication Flow
-        SPA -- 2. Redirects to --> ZitAuth[🛡️ ZitAuth Gateway @ Port 8000]
-        ZitAuth -- 3. Redirects to --> Zitadel[🔐 Zitadel @ Port 8080]
-        User -- 4. Authenticates --> Zitadel
-        Zitadel -- 5. Redirects with auth code --> ZitAuth
-        ZitAuth -- 6. Exchanges code for token --> Zitadel
-        ZitAuth -- 7. Redirects with token --> SPA
+    subgraph "Client Application"
+        SPA[🌐 SPA / Client App]
     end
 
-    subgraph API Access
-        SPA -- "8. Calls API with token" --> ProtectedSPA[Protected Endpoint on SPA]
-        ProtectedSPA -- 9. Delegates validation --> ZitAuth
+    subgraph "Core Authentication System"
+        ZitAuth[🛡️ ZitAuth Gateway]
+        Zitadel[🔐 Zitadel IdP]
     end
 
-    subgraph M2M Flow
-        M2MClient[💻 M2M Local Service] -- A. Requests M2M token --> ZitAuth
-        ZitAuth -- B. Performs JWT Bearer Grant --> Zitadel
-        Zitadel -- C. Issues Access Token --> ZitAuth
-        ZitAuth -- D. Returns Token --> M2MClient
-        M2MClient -- E. Calls API with token --> ProtectedSPA
+    subgraph "Protected Resource"
+        ProtectedAPI[📦 Your Protected API]
     end
+
+    %% User Authentication Flow (Numbered Steps)
+    User -- "1. Login" --> SPA
+    SPA -- "2. Redirect for Login" --> ZitAuth
+    ZitAuth -- "3. OIDC Flow" --> Zitadel
+    Zitadel -- "4. Auth Code" --> ZitAuth
+    ZitAuth -- "5. Token Exchange" --> Zitadel
+    ZitAuth -- "6. Returns Token" --> SPA
+
+    %% M2M Authentication Flow (Lettered Steps)
+    M2MClient -- "A. Request M2M Token" --> ZitAuth
+    ZitAuth -- "B. JWT Bearer Grant" --> Zitadel
+    Zitadel -- "C. Returns M2M Token" --> ZitAuth
+    ZitAuth -- "D. Returns Token" --> M2MClient
+
+    %% API Access - The Convergence Point
+    SPA -- "7. API Call w/ User Token" --> ProtectedAPI
+    M2MClient -- "E. API Call w/ M2M Token" --> ProtectedAPI
+    ProtectedAPI -- "✅ Centralized Validation" --> ZitAuth
 ```
 
 ## 🚀 Quick Start
@@ -68,7 +87,10 @@ You can access the Zitadel Console at `http://localhost:8080`.
 
 📺 **Watch this video for the basic setup:** [YouTube guide](https://youtu.be/5THbQljoPKg?si=QkEaKagDfMxn3kHb)
 
-After starting Zitadel, log in to the console at http://localhost:8080. You will need to create a project and two distinct applications as follows.
+After starting Zitadel, log in to the console at http://localhost:8080. You will need to create a project and two distinct applications.
+
+<details>
+<summary><strong>Click to expand Zitadel Application Configuration</strong></summary>
 
 #### Application 1: Web App (for User Login)
 
@@ -89,6 +111,8 @@ This application simulates machine-to-machine login flow.
 - Authentication method: Private Key JWT
 - After creating the application, generate a JSON key and download it
 - Save this file to a secure location in your project. Provide the path to this file in the `.env` file
+
+</details>
 
 ### Step 3: Configure the ZitAuth Service
 
@@ -260,22 +284,3 @@ Fetches the user profile from Zitadel's userinfo endpoint using a valid access t
   - `HTTP 401 Unauthorized`: If the access token is invalid or does not have the required scopes
 
 </details>
-
-## Project Structure
-
-```text
-.
-├── assets/
-│   └── image1.png              # README images
-├── docker-compose.yaml         # Sets up Zitadel server locally
-├── examples/
-│   ├── m2m_sim.py              # Simulates the local service (M2M)
-│   └── spa_app/                # Simulates the mobile/web application
-├── python/
-│   ├── client.py               # ZitAuth client abstraction
-│   ├── main.py                 # FastAPI service (ZitAuth Gateway)
-│   └── utils.py                # Helper functions (logging, PKCE)
-├── .env.example                # Template for environment variables
-├── requirements.txt            # Python dependencies
-└── start.sh                    # Helper script to run services
-```
