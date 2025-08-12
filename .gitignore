@@ -3,3 +3,5 @@ logs/*
 *.pyc
 *.json
 .env
+nodejs/node_modules
+nodejs/package-lock.json
