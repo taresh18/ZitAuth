@@ -48,3 +48,8 @@ def generate_code_challenge(code_verifier: str) -> str:
     """calculates the hash of the code verifier and returns the base64 encoded string"""
     digest = hashlib.sha256(code_verifier.encode("ascii")).digest()
     return base64.urlsafe_b64encode(digest).decode("ascii").rstrip("=")
+
+
+def get_key_from_jwks(jwks: dict, kid_value: str) -> Optional[dict]:
+    """Find a key in the JWKS by kid"""
+    return next((k for k in jwks.get('keys', []) if k.get('kid') == kid_value), None)

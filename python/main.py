@@ -3,7 +3,7 @@ from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import RedirectResponse
 from typing import Dict
 
-from .zitadel_client import ZitadelClient
+from .client import ZitadelClient
 from .utils import get_logger, generate_state, generate_code_verifier, generate_code_challenge
 
 app = FastAPI(title="ZitAuth: Zitadel Auth Wrapper")
@@ -75,9 +75,10 @@ async def auth_callback(_: Request, code: str, state: str):
     return RedirectResponse(url=f"{SPA_ORIGIN}/{fragment}")
 
 @app.get("/api/v1/m2m-token")
-async def auth_m2m_token():
+async def get_m2m_token():
     """
     Issue a machine-to-machine access token using the service account.
+
     returns: access token received from Zitadel token endpoint.
     """
     logger.info(f"Request received for m2m token")
@@ -89,9 +90,11 @@ async def auth_m2m_token():
         raise HTTPException(status_code=500, detail=f"Failed to get M2M token: {e}")
 
 @app.get("/api/v1/validate")
-async def validate_get(request: Request):
-    """Validate a token for authentication
-    returns: claims from the token
+async def validate_token(request: Request):
+    """
+    Validate a token for authentication
+
+    returns: authentication status
     """
     logger.info(f"Request received for validate")
     # get the token from the authorization header
@@ -101,16 +104,16 @@ async def validate_get(request: Request):
         raise HTTPException(status_code=400, detail="Missing bearer token")
 
     token = auth_header.split(" ", 1)[1].strip()
-    claims = client.validate_token(token)
-    return {"claims": claims}
+    status = client.validate_token(token)
+    return status
 
 
 @app.get("/api/v1/userinfo")
-async def userinfo_get(request: Request):
-    """Fetch user info from Zitadel using the provided access token.
+async def get_userinfo(request: Request):
+    """
+    Fetch user info from Zitadel using the provided access token.
 
-    Accepts Authorization: Bearer <access_token> and returns data under {"claims": ...}
-    to match the /auth/validate payload shape.
+    Accepts Authorization: Bearer <access_token> and returns data under {"userinfo": ...}
     """
     logger.info(f"Request received for userinfo")
     auth_header = request.headers.get("authorization")
@@ -124,7 +127,7 @@ async def userinfo_get(request: Request):
     try:
         # fetch userinfo from Zitadel using the access token
         info = client.get_userinfo(token)
-        return {"claims": info}
+        return {"userinfo": info}
     except Exception as e: 
         logger.error(f"GET /auth/userinfo failed", exc_info=True)
         raise HTTPException(status_code=401, detail=f"Failed to fetch userinfo. Error: {e}")

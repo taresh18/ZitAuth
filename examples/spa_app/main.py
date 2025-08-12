@@ -46,8 +46,8 @@ async def protected(request: Request):
         )
         if resp.status_code != 200:
             raise HTTPException(status_code=resp.status_code, detail=resp.text)
-        logger.info(f"Successfully validated token: {resp.json()}")
-        return resp.json()
+        logger.info(f"Successfully validated token")
+        return {"authenticated": True}
     except HTTPException:
         raise
     except Exception as exc:
@@ -66,6 +66,7 @@ async def userinfo(request: Request):
         )
         if resp.status_code != 200:
             raise HTTPException(status_code=resp.status_code, detail=resp.text)
+        logger.info(f"Successfully fetched userinfo: {resp.json()}")
         return resp.json()
     except HTTPException:
         raise
