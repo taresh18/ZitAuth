@@ -125,6 +125,8 @@ The `start.sh` script is provided to run the main components. You can inspect th
 uvicorn python.main:app --reload --port 8000
 ```
 
+Note - For running in nodejs, refer to `nodejs/README.md`
+
 ## Testing
 
 ### Testing the User Login Flow (SPA)
