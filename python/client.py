@@ -41,15 +41,25 @@ class ZitadelClient:
             self.zitadel_domain = os.environ["ZITADEL_DOMAIN"]
             self.zitadel_client_id = os.environ["ZITADEL_CLIENT_ID"]
             self.zitadel_redirect_url = os.environ["ZITADEL_REDIRECT_URL"]
-            self.zitadel_auth_endpoint = os.environ["ZITADEL_AUTH_ENDPOINT"]
+            self.zitadel_auth_endpoint = os.environ["ZITADEL_AUTHORIZATION_ENDPOINT"]
             self.zitadel_token_endpoint = os.environ["ZITADEL_TOKEN_ENDPOINT"]
-            self.zitadel_jwks_url = os.environ["ZITADEL_JWKS_URL"]
-            self.zitadel_userinfo_url = os.environ["ZITADEL_USERINFO_URL"]
+            self.zitadel_jwks_url = os.environ["ZITADEL_JWKS_URI"]
+            self.zitadel_userinfo_url = os.environ["ZITADEL_USERINFO_ENDPOINT"]
             self.service_account_file = os.environ["SERVICE_ACCOUNT_FILE"]
         except KeyError as e:
             logger.error(f"Environment variable {e} is not set")
             raise e
-
+        finally:
+            logger.info("Environment variables configured successfully")
+            logger.info(f"ZITADEL_DOMAIN: {self.zitadel_domain}")
+            logger.info(f"ZITADEL_CLIENT_ID: {self.zitadel_client_id}")
+            logger.info(f"ZITADEL_REDIRECT_URL: {self.zitadel_redirect_url}")
+            logger.info(f"ZITADEL_AUTHORIZATION_ENDPOINT: {self.zitadel_auth_endpoint}")
+            logger.info(f"ZITADEL_TOKEN_ENDPOINT: {self.zitadel_token_endpoint}")
+            logger.info(f"ZITADEL_JWKS_URI: {self.zitadel_jwks_url}")
+            logger.info(f"ZITADEL_USERINFO_ENDPOINT: {self.zitadel_userinfo_url}")
+            logger.info(f"SERVICE_ACCOUNT_FILE: {self.service_account_file}")
+            
         # cache the public keys obtained from zitadel JWKS endpoint for reuse
         self.jwks_cache = None
 

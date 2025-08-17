@@ -16,10 +16,10 @@ export class ZitadelClient {
         'ZITADEL_DOMAIN',
         'ZITADEL_CLIENT_ID',
         'ZITADEL_REDIRECT_URL',
-        'ZITADEL_AUTH_ENDPOINT',
+        'ZITADEL_AUTHORIZATION_ENDPOINT',
         'ZITADEL_TOKEN_ENDPOINT',
-        'ZITADEL_JWKS_URL',
-        'ZITADEL_USERINFO_URL',
+        'ZITADEL_JWKS_URI',
+        'ZITADEL_USERINFO_ENDPOINT',
         'SERVICE_ACCOUNT_FILE'
       ];
       const missing = required.filter((k) => !env[k]);
@@ -30,10 +30,10 @@ export class ZitadelClient {
       this.zitadelDomain = env.ZITADEL_DOMAIN;
       this.zitadelClientId = env.ZITADEL_CLIENT_ID;
       this.zitadelRedirectUrl = env.ZITADEL_REDIRECT_URL;
-      this.zitadelAuthEndpoint = env.ZITADEL_AUTH_ENDPOINT;
+      this.zitadelAuthEndpoint = env.ZITADEL_AUTHORIZATION_ENDPOINT;
       this.zitadelTokenEndpoint = env.ZITADEL_TOKEN_ENDPOINT;
-      this.zitadelJwksUrl = env.ZITADEL_JWKS_URL;
-      this.zitadelUserinfoUrl = env.ZITADEL_USERINFO_URL;
+      this.zitadelJwksUrl = env.ZITADEL_JWKS_URI;
+      this.zitadelUserinfoUrl = env.ZITADEL_USERINFO_ENDPOINT;
       this.serviceAccountFile = env.SERVICE_ACCOUNT_FILE;
     } catch (e) {
       logger.error(e, 'Environment configuration error');

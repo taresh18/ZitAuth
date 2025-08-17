@@ -1,0 +1,21 @@
+{
+  "name": "zitauth-node",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Node.js port of ZitAuth (Zitadel auth wrapper)",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "NODE_ENV=development nodemon --watch src --ext js src/app.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^5.0.0",
+    "jose": "^5.2.0",
+    "pino": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0",
+    "pino-pretty": "^10.0.0"
+  }
+}

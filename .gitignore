@@ -1,7 +1,6 @@
 logs/*
 *.pat
 *.pyc
-*.json
 .env
 nodejs/node_modules
-nodejs/package-lock.json
+33*.json

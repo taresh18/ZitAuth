@@ -61,44 +61,45 @@ graph TD
 
 ### Step 1: Set Up the Zitadel Environment
 
-The provided `docker-compose.yaml` file is used to set up a local Zitadel instance. You can also use Zitadel hosted in the cloud.
+  - The provided `docker-compose.yaml` file is used to set up a local Zitadel instance. You can also use Zitadel hosted on the cloud.
 
-```bash
-docker-compose up -d
-```
+    ```bash
+    docker compose up -d
+    ```
 
-You can access the Zitadel Console at `http://localhost:8080`.
+  - You can access the Zitadel Console at `http://localhost:8080`.
 
 ### Step 2: Configure Zitadel
 
-📺 **Watch this video for the basic setup:** [YouTube guide](https://youtu.be/5THbQljoPKg?si=QkEaKagDfMxn3kHb)
+- After starting Zitadel, log in to the console at http://localhost:8080 using these creds:
+  - username: `zitadel-admin@zitadel.localhost`
+  - password: `Password1!`
 
-After starting Zitadel, log in to the console at http://localhost:8080. You will need to create a project and two distinct applications.
+- You will need to create a project and application within it (for mobile login flow) and a service user (for m2m flow)
 
-<details>
-<summary><strong>Click to expand Zitadel Application Configuration</strong></summary>
+  <details>
+  <summary>Click to expand Zitadel Application Configuration</summary>
 
-#### Application 1: Web App (for User Login)
+  - In your project, create a new application of type `User Agent`
+  - Select authentication method as `PKCE`, toggle the `Development mode` to allow redirect to http 
+  - Configure the redirect URI as `http://localhost:8000/api/v1/callback`
+  - After creating the application, Go to the `Token Settings` tab and select `Auth Token Type` as `JWT`
+  - Go to the URLs tab and note down the urls and client id in .env file
 
-This application simulates the SPA/user-agent login flow.
+  </details>
 
-- In your project, create a new application of type "User Agent"
-- Authentication method: PKCE (recommended for public clients)
-- Auth token type: JWT (JSON Web Token). ⚠️ Opaque tokens will not work with the current validation logic
-- Redirect URIs:
-  - ZitAuth callback: `http://localhost:8000/api/v1/callback`
-- After saving, Zitadel will display a Client ID and URLs in the URL tab. Note these down in the .env file
+  <details>
+  <summary>Click to expand Zitadel Service User Configuration</summary>
 
-#### Application 2: API App (for M2M)
+  - In the Zitadel console, go to `Users` Section and then to the `Service Users` tab
+  - Click on the `New` button
+  - Fill basic details and select the `Access Token Type` as `JWT`
+  - Go to `Keys` tab and add a new key of type `JSON` and download it
+  - Save this file to a secure location in your project. Provide the path to this file in the `.env` file
 
-This application simulates machine-to-machine login flow.
+  </details>  
 
-- In your project, create a new application of type "API"
-- Authentication method: Private Key JWT
-- After creating the application, generate a JSON key and download it
-- Save this file to a secure location in your project. Provide the path to this file in the `.env` file
-
-</details>
+- **PS**: Refer to this [YouTube guide](https://youtu.be/5THbQljoPKg?si=QkEaKagDfMxn3kHb) if case of any issues
 
 ### Step 3: Configure the ZitAuth Service
 
@@ -135,7 +136,7 @@ Note - For running in nodejs, refer to `nodejs/README.md`
 
 1. **Start the SPA app:**
    ```bash
-   uvicorn examples.spa_app.main:app --reload --port 8001
+   uvicorn examples.spa_app.main:app --reload --port 3001
    ```
 
 2. Open your browser and navigate to the SPA at **`http://127.0.0.1:3001`**
@@ -146,7 +147,7 @@ Note - For running in nodejs, refer to `nodejs/README.md`
 
 5. After a successful login, you will be redirected back to the SPA, and the status will show "Access token received"
 
-6. Click **"Call Protected Endpoint"** and **"Fetch User Info"** to test the authenticated API calls
+6. Click `Call Protected Endpoint` and `Fetch User Info` to test the authenticated API calls
 
 ### Testing the Machine-to-Machine (M2M) Flow
 
