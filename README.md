@@ -296,7 +296,6 @@ Fetches the user profile from Zitadel's userinfo endpoint using a valid access t
 
 </details>
 
-<br>
 
 # 📚 References:
 - [YouTube guide for setting up Zitadel](https://youtu.be/5THbQljoPKg?si=QkEaKagDfMxn3kHb)
