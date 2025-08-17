@@ -75,7 +75,7 @@ graph TD
   - username: `zitadel-admin@zitadel.localhost`
   - password: `Password1!`
 
-- You will need to create a project and application within it (for mobile login flow) and a service user (for m2m flow)
+- You will need to create a project and application within it (for mobile login flow) and a service user (for m2m flow) and configure login policies (Required for User registration)
 
   <details>
   <summary>Click to expand Zitadel Application Configuration</summary>
@@ -99,7 +99,13 @@ graph TD
 
   </details>  
 
-- **PS**: Refer to this [YouTube guide](https://youtu.be/5THbQljoPKg?si=QkEaKagDfMxn3kHb) if case of any issues
+  <details>
+  <summary>Click to expand Zitadel Login Policy Configuration</summary>
+  - Navigate to the `Default Settings` setion on the zitadel console
+  - Go to the `External Links` tab in the `Other` subsection
+  - Configure `Link to Terms of Service` and `Link to Privacy Policy` (or use any dummy links for demo)
+  - Click `Save`
+  </details>
 
 ### Step 3: Configure the ZitAuth Service
 
@@ -289,3 +295,9 @@ Fetches the user profile from Zitadel's userinfo endpoint using a valid access t
   - `HTTP 401 Unauthorized`: If the access token is invalid or does not have the required scopes
 
 </details>
+
+<br>
+
+# 📚 References:
+- [YouTube guide for setting up Zitadel](https://youtu.be/5THbQljoPKg?si=QkEaKagDfMxn3kHb)
+- [Zitadel API documentation](https://zitadel.com/docs/apis/openidoauth/endpoints)
